@@ -1,0 +1,103 @@
+/*
+ * Design tokens extracted from Figma "Wick 3 Foundations"
+ * (https://www.figma.com/design/ngCIRSPFitjT3wsX81sjSs/Wick-3-Foundations)
+ * Source pages: Color, Typography, Layout, Radii, Border, Opacity, Elevation.
+ */
+
+:root {
+  /* Color - semantic foreground */
+  --color-fg-default: #270101;
+  --color-fg-subdued: #4f322d;
+  --color-fg-subtle: #765f58;
+  --color-fg-minimal: #9a8781;
+  --color-fg-on-bold: #ffffff;
+
+  /* Color - semantic background */
+  --color-bg-default: #ffffff;
+  --color-bg-minimal: #f9f5f1;
+  --color-bg-moderate: #f5ebe7;
+  --color-bg-highlight: #ccbdb8;
+  --color-bg-bold: #270101;
+
+  /* Color - semantic border */
+  --color-border-default: #e1d5d0;
+  --color-border-moderate: #9a8781;
+  --color-border-vivid: #270101;
+  --color-border-on-bold: #ffffff;
+
+  /* Color - overlay */
+  --color-overlay-elevation-surface: #1404044d;
+  --color-overlay-loading: #ffffff80;
+
+  /* Color - brights */
+  --color-brights-blue-default: #1782ff;
+  --color-brights-blue-light: #e8f8ff;
+
+  /* Color - base */
+  --color-base-white: #ffffff;
+
+  /* Typography */
+  --font-family-sans: "Helvetica Neue for BBW";
+  --font-size-sm: 14px;
+  --font-size-md: 16px;
+  --font-size-3xl: 32px;
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --letter-spacing-normal: 0;
+
+  /* Spacing */
+  --space-2: 8px;
+  --space-4: 16px;
+  --space-12: 48px;
+  --gap-none: 0px;
+
+  /* Radius */
+  --radius-none: 0px;
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-lg: 8px;
+
+  /* Border width */
+  --border-width-none: 0px;
+  --border-width-sm: 1px;
+  --border-width-md: 2px;
+
+  /* Opacity */
+  --opacity-0: 0;
+  --opacity-10: 0.1;
+  --opacity-20: 0.2;
+  --opacity-30: 0.3;
+  --opacity-40: 0.4;
+  --opacity-50: 0.5;
+  --opacity-60: 0.6;
+  --opacity-70: 0.7;
+  --opacity-80: 0.8;
+  --opacity-90: 0.9;
+  --opacity-100: 1;
+}
+
+/* Composite text styles */
+.text-headline-3xl {
+  font-family: var(--font-family-sans);
+  font-weight: var(--font-weight-light);
+  font-size: var(--font-size-3xl);
+  line-height: 1;
+  letter-spacing: var(--letter-spacing-normal);
+}
+
+.text-body-default-md {
+  font-family: var(--font-family-sans);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-md);
+  line-height: 1.2;
+  letter-spacing: var(--letter-spacing-normal);
+}
+
+.text-body-medium-sm {
+  font-family: var(--font-family-sans);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-sm);
+  line-height: 1.2;
+  letter-spacing: var(--letter-spacing-normal);
+}

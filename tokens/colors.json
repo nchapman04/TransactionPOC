@@ -1,0 +1,39 @@
+{
+  "$description": "Color tokens extracted from Figma 'Wick 3 Foundations' (Color page, Default warm-gray scheme). Semantic tokens reference base hex values pulled directly from Figma variables.",
+  "semantic": {
+    "fg": {
+      "default": { "value": "#270101" },
+      "subdued": { "value": "#4f322d" },
+      "subtle": { "value": "#765f58" },
+      "minimal": { "value": "#9a8781" },
+      "onBold": { "value": "#ffffff" }
+    },
+    "bg": {
+      "default": { "value": "#ffffff" },
+      "minimal": { "value": "#f9f5f1" },
+      "moderate": { "value": "#f5ebe7" },
+      "highlight": { "value": "#ccbdb8" },
+      "bold": { "value": "#270101" }
+    },
+    "border": {
+      "default": { "value": "#e1d5d0" },
+      "moderate": { "value": "#9a8781" },
+      "vivid": { "value": "#270101" },
+      "onBold": { "value": "#ffffff" }
+    },
+    "overlay": {
+      "elevationSurface": { "value": "#1404044d" },
+      "loading": { "value": "#ffffff80" }
+    }
+  },
+  "brights": {
+    "blue": {
+      "default": { "value": "#1782ff" },
+      "light": { "value": "#e8f8ff" }
+    }
+  },
+  "base": {
+    "white": { "value": "#FFFFFF" }
+  },
+  "$note": "Figma file also defines accent color schemes (Brand, Error, Orange, Amber, Yellow, Green, Cyan, Blue, Purple, Pink, Rose, Brown, Tan, Olive, Sage, Mauve, Lilac, Cherry, Warm Gray, Cool Gray) applied via Figma variable modes on the 'Scheme Color Palette' page. These resolve to the same semantic token names (fg/bg/border) under a different mode — re-run extraction per-mode in Figma (right-click frame > variables > switch mode) to pull exact per-scheme hex values."
+}

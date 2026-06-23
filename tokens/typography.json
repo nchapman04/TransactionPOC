@@ -1,0 +1,43 @@
+{
+  "$description": "Typography tokens extracted from Figma 'Wick 3 Foundations' (Typography page).",
+  "fontFamily": {
+    "sans": { "value": "Helvetica Neue for BBW" }
+  },
+  "fontSize": {
+    "sm": { "value": "14" },
+    "md": { "value": "16" },
+    "3xl": { "value": "32" }
+  },
+  "fontWeight": {
+    "light": { "value": "300" },
+    "regular": { "value": "400" },
+    "medium": { "value": "500" }
+  },
+  "letterSpacing": {
+    "normal": { "value": "0" }
+  },
+  "textStyles": {
+    "headline-3xl": {
+      "fontFamily": "{fontFamily.sans}",
+      "fontWeight": "{fontWeight.light}",
+      "fontSize": "{fontSize.3xl}",
+      "lineHeight": "1",
+      "letterSpacing": "{letterSpacing.normal}"
+    },
+    "body-default-md": {
+      "fontFamily": "{fontFamily.sans}",
+      "fontWeight": "{fontWeight.regular}",
+      "fontSize": "{fontSize.md}",
+      "lineHeight": "1.2",
+      "letterSpacing": "{letterSpacing.normal}"
+    },
+    "body-medium-sm": {
+      "fontFamily": "{fontFamily.sans}",
+      "fontWeight": "{fontWeight.medium}",
+      "fontSize": "{fontSize.sm}",
+      "lineHeight": "1.2",
+      "letterSpacing": "{letterSpacing.normal}"
+    }
+  },
+  "$note": "Component-library text styles (e.g. 'Body M', 'Body L') use Inter as a fallback/reference font at sizes 18/20 with regular weight and 1.5 line-height; the Foundations brand type scale uses 'Helvetica Neue for BBW'. Only a subset of the full type scale (sm/md/3xl) was captured — pull additional sizes (xs, lg, xl, 2xl, 4xl, etc.) from the Typography page in Figma the same way for full coverage."
+}

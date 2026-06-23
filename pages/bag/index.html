@@ -65,6 +65,8 @@
     --accent-rewards: #f6c90e;
     --accent-cta: #0A1D79;
     --accent-cta-dark: #07154f;
+    --accent-shipping: #C71517;
+    --accent-shipping-bg: #fceaea;
   }
   body {
     background: var(--color-bg-highlight);
@@ -353,19 +355,19 @@
   .shipping-nudge {
     margin: 10px var(--space-4) 0;
     padding: 9px 12px;
-    background: var(--accent-success-bg);
+    background: var(--accent-shipping-bg);
     border-radius: 6px;
   }
   .nudge-text {
     font-family: var(--font-family-sans), sans-serif;
     font-size: 11px;
     font-weight: 600;
-    color: var(--accent-success);
+    color: var(--accent-shipping);
     margin-bottom: 5px;
   }
   .nudge-text span { font-weight: 400; color: var(--color-fg-subtle); }
-  .progress-bar { width: 100%; height: 4px; background: rgba(45,106,79,0.18); border-radius: 99px; overflow: hidden; }
-  .progress-fill { height: 100%; width: 82%; background: var(--accent-success); border-radius: 99px; }
+  .progress-bar { width: 100%; height: 4px; background: rgba(199,21,23,0.18); border-radius: 99px; overflow: hidden; }
+  .progress-fill { height: 100%; width: 82%; background: var(--accent-shipping); border-radius: 99px; }
 
   /* ── SECTION LABELS ── */
   .section-label {
@@ -873,8 +875,8 @@
 
     <!-- FREE SHIPPING NUDGE -->
     <div class="shipping-nudge" id="shippingNudge">
-      <div class="nudge-text" id="nudgeText">You're <strong>$6.95</strong> <span>away from free shipping</span></div>
-      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:88%;"></div></div>
+      <div class="nudge-text" id="nudgeText">You're <strong>$2.00</strong> <span>away from free shipping</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:96%;"></div></div>
     </div>
 
     <!-- SHIPPING SECTION -->
@@ -927,7 +929,7 @@
         <div class="item-sub">3-Wick Candle · 14.5 oz</div>
         <div class="item-actions">
           <div class="qty-control"><button class="qty-btn">−</button><span class="qty-num">1</span><button class="qty-btn">+</button></div>
-          <span class="item-price">$24.95</span>
+          <span class="item-price">$22.95</span>
         </div>
         <span class="item-remove">Remove</span>
       </div>
@@ -1053,13 +1055,13 @@
     <!-- ORDER SUMMARY -->
     <div class="summary-section">
       <div class="summary-title">Order Summary</div>
-      <div class="summary-row"><span class="summary-label" id="summarySubtotalLabel">Subtotal (3 items)</span><span class="summary-value" id="summarySubtotal">$50.00</span></div>
+      <div class="summary-row"><span class="summary-label" id="summarySubtotalLabel">Subtotal (3 items)</span><span class="summary-value" id="summarySubtotal">$48.00</span></div>
       <div class="summary-row"><span class="summary-label">Estimated shipping</span><span class="summary-value" id="summaryShipping">$6.95</span></div>
       <div class="summary-row"><span class="summary-label">Estimated tax</span><span class="summary-value">$3.75</span></div>
       <div class="summary-divider"></div>
       <div class="summary-total-row">
         <span class="summary-total-label">Estimated Total</span>
-        <span class="summary-total-value" id="summaryTotal">$60.70</span>
+        <span class="summary-total-value" id="summaryTotal">$58.70</span>
       </div>
     </div>
 
@@ -1139,7 +1141,7 @@
         <span class="checkout-label">Checkout</span>
         <span class="checkout-items" id="checkoutItems">3 items</span>
       </div>
-      <span class="checkout-total" id="checkoutTotal">$60.70</span>
+      <span class="checkout-total" id="checkoutTotal">$58.70</span>
     </button>
   </div>
 
@@ -1317,7 +1319,7 @@
   }
 
   function updateCartTotals() {
-    const baseFixed = 24.95 + 10.55; // Mahogany Teakwood candle + Eucalyptus Spearmint hand soap
+    const baseFixed = 22.95 + 10.55; // Mahogany Teakwood candle + Eucalyptus Spearmint hand soap
     const recPrice = recAdded ? 7.95 : 0;
     const subtotal = bogoUnitsPaid(bogoQty) + baseFixed + recPrice;
     const freeShipping = subtotal >= 50;

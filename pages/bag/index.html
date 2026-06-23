@@ -6,8 +6,48 @@
 <title>Your Bag</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../../tokens/tokens.css">
 <style>
+  /* ── Design tokens (tokens/tokens.css), inlined so this file is
+     self-contained and renders correctly wherever it's opened from ── */
+  :root {
+    --color-fg-default: #270101;
+    --color-fg-subdued: #4f322d;
+    --color-fg-subtle: #765f58;
+    --color-fg-minimal: #9a8781;
+    --color-fg-on-bold: #ffffff;
+    --color-bg-default: #ffffff;
+    --color-bg-minimal: #f9f5f1;
+    --color-bg-moderate: #f5ebe7;
+    --color-bg-highlight: #ccbdb8;
+    --color-bg-bold: #270101;
+    --color-border-default: #e1d5d0;
+    --color-border-moderate: #9a8781;
+    --color-border-vivid: #270101;
+    --color-border-on-bold: #ffffff;
+    --color-overlay-elevation-surface: #1404044d;
+    --color-overlay-loading: #ffffff80;
+    --color-brights-blue-default: #1782ff;
+    --color-brights-blue-light: #e8f8ff;
+    --color-base-white: #ffffff;
+    --font-size-sm: 14px;
+    --font-size-md: 16px;
+    --font-size-3xl: 32px;
+    --font-weight-light: 300;
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --letter-spacing-normal: 0;
+    --space-2: 8px;
+    --space-4: 16px;
+    --space-12: 48px;
+    --gap-none: 0px;
+    --radius-none: 0px;
+    --radius-xs: 2px;
+    --radius-sm: 4px;
+    --radius-lg: 8px;
+    --border-width-none: 0px;
+    --border-width-sm: 1px;
+    --border-width-md: 2px;
+  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
     /* "Helvetica Neue for BBW" isn't installed/web-available outside BBW's

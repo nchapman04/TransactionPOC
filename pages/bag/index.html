@@ -1053,7 +1053,7 @@
     <!-- ORDER SUMMARY -->
     <div class="summary-section">
       <div class="summary-title">Order Summary</div>
-      <div class="summary-row"><span class="summary-label">Subtotal (3 items)</span><span class="summary-value" id="summarySubtotal">$50.00</span></div>
+      <div class="summary-row"><span class="summary-label" id="summarySubtotalLabel">Subtotal (3 items)</span><span class="summary-value" id="summarySubtotal">$50.00</span></div>
       <div class="summary-row"><span class="summary-label">Estimated shipping</span><span class="summary-value" id="summaryShipping">$6.95</span></div>
       <div class="summary-row"><span class="summary-label">Estimated tax</span><span class="summary-value">$3.75</span></div>
       <div class="summary-divider"></div>
@@ -1137,9 +1137,9 @@
     <button class="checkout-btn">
       <div class="checkout-btn-left">
         <span class="checkout-label">Checkout</span>
-        <span class="checkout-items">3 items</span>
+        <span class="checkout-items" id="checkoutItems">3 items</span>
       </div>
-      <span class="checkout-total">$60.70</span>
+      <span class="checkout-total" id="checkoutTotal">$60.70</span>
     </button>
   </div>
 
@@ -1268,16 +1268,8 @@
     btn.innerHTML = '✓ Added';
     btn.classList.add('added');
 
-    const nudge = document.getElementById('shippingNudge');
-    nudge.style.background = '#f0f7f4';
-    nudge.style.border = '1px solid #b7dfc9';
-    document.getElementById('nudgeText').innerHTML = '🎉 <strong style="color:var(--accent-success)">Free shipping unlocked!</strong> <span style="color:var(--color-fg-subtle)">Enjoy free delivery on this order</span>';
-    document.getElementById('progressFill').style.width = '100%';
-    document.getElementById('progressFill').style.background = 'var(--accent-success)';
-
-    document.getElementById('summarySubtotal').textContent = '$57.95';
-    document.getElementById('summaryShipping').innerHTML = '<span style="text-decoration:line-through;color:var(--color-fg-minimal);margin-right:4px;">$6.95</span><span style="color:var(--accent-success);font-weight:700;">Free</span>';
-    document.getElementById('summaryTotal').textContent = '$61.70';
+    recAdded = true;
+    updateCartTotals();
 
     setTimeout(() => {
       const card = document.getElementById('recCard');
@@ -1288,7 +1280,6 @@
       card.style.margin = '0 16px';
     }, 900);
 
-    recAdded = true;
     updateBodyCareTracker();
   }
 
@@ -1303,6 +1294,7 @@
     document.getElementById('bogoQty').textContent = bogoQty;
     updateBogoState();
     updateBodyCareTracker();
+    updateCartTotals();
   }
   function bogoDecrement() {
     if (bogoQty <= 1) return;
@@ -1315,6 +1307,54 @@
     }
     updateBogoState();
     updateBodyCareTracker();
+    updateCartTotals();
+  }
+
+  function bogoUnitsPaid(qty) {
+    if (qty <= 1) return qty * 14.50;
+    const free = Math.floor(qty / 3);
+    return (qty - free) * 9.95;
+  }
+
+  function updateCartTotals() {
+    const baseFixed = 24.95 + 10.55; // Mahogany Teakwood candle + Eucalyptus Spearmint hand soap
+    const recPrice = recAdded ? 7.95 : 0;
+    const subtotal = bogoUnitsPaid(bogoQty) + baseFixed + recPrice;
+    const freeShipping = subtotal >= 50;
+    const shipping = freeShipping ? 0 : 6.95;
+    const tax = 3.75;
+    const total = subtotal + shipping + tax;
+    const itemCount = 2 + bogoQty + (recAdded ? 1 : 0) + freeItemsSelected;
+
+    document.getElementById('checkoutItems').textContent = `${itemCount} item${itemCount === 1 ? '' : 's'}`;
+    document.getElementById('checkoutTotal').textContent = `$${total.toFixed(2)}`;
+    document.getElementById('summarySubtotalLabel').textContent = `Subtotal (${itemCount} item${itemCount === 1 ? '' : 's'})`;
+    document.getElementById('summarySubtotal').textContent = `$${subtotal.toFixed(2)}`;
+    document.getElementById('summaryShipping').innerHTML = freeShipping
+      ? '<span style="color:var(--accent-success);font-weight:700;">Free</span>'
+      : `$${shipping.toFixed(2)}`;
+    document.getElementById('summaryTotal').textContent = `$${total.toFixed(2)}`;
+
+    const recCard = document.getElementById('recCard');
+    if (recCard && !recAdded) {
+      recCard.style.display = freeShipping ? 'none' : '';
+    }
+
+    const nudge = document.getElementById('shippingNudge');
+    if (freeShipping) {
+      nudge.style.background = '#f0f7f4';
+      nudge.style.border = '1px solid #b7dfc9';
+      document.getElementById('nudgeText').innerHTML = '🎉 <strong style="color:var(--accent-success)">Free shipping unlocked!</strong> <span style="color:var(--color-fg-subtle)">Enjoy free delivery on this order</span>';
+      document.getElementById('progressFill').style.width = '100%';
+      document.getElementById('progressFill').style.background = 'var(--accent-success)';
+    } else {
+      const remaining = (50 - subtotal).toFixed(2);
+      nudge.style.background = '';
+      nudge.style.border = '';
+      document.getElementById('nudgeText').innerHTML = `You're <strong>$${remaining}</strong> <span>away from free shipping</span>`;
+      document.getElementById('progressFill').style.width = `${Math.min(100, (subtotal / 50) * 100)}%`;
+      document.getElementById('progressFill').style.background = '';
+    }
   }
 
   function bodyCareCount() {
@@ -1439,6 +1479,7 @@
       setTimeout(closeAllDrawers, 900);
     }
     updateBodyCareTracker();
+    updateCartTotals();
   }
   function addToCart(btn) {
     btn.textContent = '✓ Added';
@@ -1494,6 +1535,7 @@
   }
 
   updateBodyCareTracker();
+  updateCartTotals();
 </script>
 </body>
 </html>

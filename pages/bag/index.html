@@ -867,6 +867,7 @@
         <div class="promo-tracker-status" id="promoStatus">
           Add <strong>2 more</strong> body care items to get <em>2 free</em>
         </div>
+        <button class="rec-add-btn" id="selectFreeItemsBtn" onclick="openFreeItemsDrawer()" style="display:none;width:100%;margin-top:8px;">Select your 2 free items</button>
       </div>
     </div>
 
@@ -1143,7 +1144,7 @@
   </div>
 
   <!-- DRAWER OVERLAY -->
-  <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+  <div class="drawer-overlay" id="drawerOverlay" onclick="closeAllDrawers()"></div>
 
   <!-- SIMILAR ITEMS DRAWER -->
   <div class="drawer" id="similarDrawer">
@@ -1202,6 +1203,63 @@
     </div>
   </div>
 
+  <!-- FREE ITEMS DRAWER -->
+  <div class="drawer" id="freeItemsDrawer">
+    <div class="drawer-handle-row"><div class="drawer-handle"></div></div>
+    <div class="drawer-header">
+      <div class="drawer-title">🎉 Choose Your 2 Free Items</div>
+      <div class="drawer-sub" id="freeItemsCountLabel"><strong>0 of 2</strong> selected</div>
+      <button class="drawer-close-btn" onclick="closeAllDrawers()">✕</button>
+    </div>
+    <div class="drawer-items" id="freeItemsList">
+      <div class="drawer-item">
+        <div class="drawer-item-img">🌿</div>
+        <div class="drawer-item-info">
+          <div class="drawer-item-name">Stress Relief Eucalyptus</div>
+          <div class="drawer-item-sub">Body Wash · 10 fl oz</div>
+          <div class="drawer-item-price"><span class="drawer-item-price-orig">$14.50</span><span class="drawer-item-sale">Free</span></div>
+        </div>
+        <button class="drawer-add-btn" onclick="toggleFreeItem(this)">Add</button>
+      </div>
+      <div class="drawer-item">
+        <div class="drawer-item-img">🍃</div>
+        <div class="drawer-item-info">
+          <div class="drawer-item-name">Aromatherapy Lavender</div>
+          <div class="drawer-item-sub">Body Lotion · 8 fl oz</div>
+          <div class="drawer-item-price"><span class="drawer-item-price-orig">$14.95</span><span class="drawer-item-sale">Free</span></div>
+        </div>
+        <button class="drawer-add-btn" onclick="toggleFreeItem(this)">Add</button>
+      </div>
+      <div class="drawer-item">
+        <div class="drawer-item-img">🌸</div>
+        <div class="drawer-item-info">
+          <div class="drawer-item-name">Japanese Cherry Blossom</div>
+          <div class="drawer-item-sub">Body Lotion · 8 fl oz</div>
+          <div class="drawer-item-price"><span class="drawer-item-price-orig">$14.95</span><span class="drawer-item-sale">Free</span></div>
+        </div>
+        <button class="drawer-add-btn" onclick="toggleFreeItem(this)">Add</button>
+      </div>
+      <div class="drawer-item">
+        <div class="drawer-item-img">🧴</div>
+        <div class="drawer-item-info">
+          <div class="drawer-item-name">Into The Night</div>
+          <div class="drawer-item-sub">Body Wash · 10 fl oz</div>
+          <div class="drawer-item-price"><span class="drawer-item-price-orig">$14.50</span><span class="drawer-item-sale">Free</span></div>
+        </div>
+        <button class="drawer-add-btn" onclick="toggleFreeItem(this)">Add</button>
+      </div>
+      <div class="drawer-item">
+        <div class="drawer-item-img">🌻</div>
+        <div class="drawer-item-info">
+          <div class="drawer-item-name">Sunshine & Sunflowers</div>
+          <div class="drawer-item-sub">Body Lotion · 8 fl oz</div>
+          <div class="drawer-item-price"><span class="drawer-item-price-orig">$14.95</span><span class="drawer-item-sale">Free</span></div>
+        </div>
+        <button class="drawer-add-btn" onclick="toggleFreeItem(this)">Add</button>
+      </div>
+    </div>
+  </div>
+
 </div><!-- end phone -->
 
 <script>
@@ -1229,15 +1287,22 @@
       card.style.overflow = 'hidden';
       card.style.margin = '0 16px';
     }, 900);
+
+    recAdded = true;
+    updateBodyCareTracker();
   }
 
   let bogoQty = 1;
   let bogoTimer = null;
+  let recAdded = false;
+  const BODY_CARE_BASE = 2; // other body care items already in the bag, outside the BOGO stepper
+  let freeItemsSelected = 0;
 
   function bogoIncrement() {
     bogoQty++;
     document.getElementById('bogoQty').textContent = bogoQty;
     updateBogoState();
+    updateBodyCareTracker();
   }
   function bogoDecrement() {
     if (bogoQty <= 1) return;
@@ -1249,6 +1314,51 @@
       document.getElementById('bogoPriceArea').innerHTML = `<span class="item-price-orig">$16.95</span><span class="item-price item-price-sale">$9.95</span>`;
     }
     updateBogoState();
+    updateBodyCareTracker();
+  }
+
+  function bodyCareCount() {
+    return BODY_CARE_BASE + bogoQty + (recAdded ? 1 : 0);
+  }
+
+  function updateBodyCareTracker() {
+    const count = Math.min(bodyCareCount(), 5);
+    document.getElementById('promoTrackFill').style.width = `${(count / 5) * 100}%`;
+
+    for (let i = 1; i <= 5; i++) {
+      const dot = document.getElementById(`dot${i}`);
+      const lbl = document.getElementById(`lbl${i}`);
+      dot.classList.remove('reached', 'active');
+      lbl.classList.remove('reached', 'active');
+      if (i < count || count === 5) {
+        dot.classList.add('reached');
+        lbl.classList.add('reached');
+        dot.textContent = '✓';
+      } else if (i === count) {
+        dot.classList.add('active');
+        lbl.classList.add('active');
+        dot.textContent = i;
+      } else {
+        dot.textContent = i;
+      }
+    }
+
+    const status = document.getElementById('promoStatus');
+    const selectBtn = document.getElementById('selectFreeItemsBtn');
+    if (count >= 5) {
+      if (freeItemsSelected >= 2) {
+        status.innerHTML = '🎉 <strong>Your 2 free items are in your bag!</strong>';
+        selectBtn.style.display = 'none';
+      } else {
+        status.innerHTML = '🎉 <strong>You unlocked 2 free items!</strong> Pick them below.';
+        selectBtn.style.display = 'block';
+        selectBtn.textContent = `Select your 2 free items (${freeItemsSelected}/2 chosen)`;
+      }
+    } else {
+      const remaining = 5 - count;
+      status.innerHTML = `Add <strong>${remaining} more</strong> body care item${remaining === 1 ? '' : 's'} to get <em>2 free</em>`;
+      selectBtn.style.display = 'none';
+    }
   }
   function updateBogoState() {
     const toast = document.getElementById('bogoToast');
@@ -1299,6 +1409,36 @@
   function closeDrawer() {
     document.getElementById('drawerOverlay').classList.remove('open');
     document.getElementById('similarDrawer').classList.remove('open');
+  }
+  function openFreeItemsDrawer() {
+    document.getElementById('drawerOverlay').classList.add('open');
+    document.getElementById('freeItemsDrawer').classList.add('open');
+  }
+  function closeAllDrawers() {
+    document.getElementById('drawerOverlay').classList.remove('open');
+    document.getElementById('similarDrawer').classList.remove('open');
+    document.getElementById('freeItemsDrawer').classList.remove('open');
+  }
+  function toggleFreeItem(btn) {
+    if (btn.classList.contains('added')) return;
+    if (freeItemsSelected >= 2) return;
+
+    btn.textContent = '✓ Free';
+    btn.classList.add('added');
+    freeItemsSelected++;
+    document.getElementById('freeItemsCountLabel').innerHTML = `<strong>${freeItemsSelected} of 2</strong> selected`;
+
+    if (freeItemsSelected >= 2) {
+      document.querySelectorAll('#freeItemsList .drawer-add-btn').forEach(b => {
+        if (!b.classList.contains('added')) {
+          b.disabled = true;
+          b.style.opacity = '0.4';
+          b.style.pointerEvents = 'none';
+        }
+      });
+      setTimeout(closeAllDrawers, 900);
+    }
+    updateBodyCareTracker();
   }
   function addToCart(btn) {
     btn.textContent = '✓ Added';
@@ -1352,6 +1492,8 @@
     div.innerHTML = `<svg class="backup-icon" width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M2 7C2 4.24 4.24 2 7 2C8.5 2 9.85 2.65 10.8 3.7L9.5 5H13V1.5L11.7 2.8C10.45 1.45 8.82 0.5 7 0.5C3.41 0.5 0.5 3.41 0.5 7H2Z" fill="#888"/><path d="M12 7C12 9.76 9.76 12 7 12C5.5 12 4.15 11.35 3.2 10.3L4.5 9H1V12.5L2.3 11.2C3.55 12.55 5.18 13.5 7 13.5C10.59 13.5 13.5 10.59 13.5 7H12Z" fill="#888"/></svg><span class="backup-cta-text">Add a Backup Item</span>`;
     parent.replaceChild(div, chosen);
   }
+
+  updateBodyCareTracker();
 </script>
 </body>
 </html>

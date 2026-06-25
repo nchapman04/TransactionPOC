@@ -948,8 +948,8 @@
         <div class="item-name">Mahogany Teakwood</div>
         <div class="item-sub">3-Wick Candle · 14.5 oz</div>
         <div class="item-actions">
-          <div class="qty-control"><button class="qty-btn">−</button><span class="qty-num">1</span><button class="qty-btn">+</button></div>
-          <span class="item-price">$22.95</span>
+          <div class="qty-control"><button class="qty-btn" onclick="adjustQty('candle',-1)">−</button><span class="qty-num" id="candleQtyNum">1</span><button class="qty-btn" onclick="adjustQty('candle',1)">+</button></div>
+          <span class="item-price" id="candlePrice">$22.95</span>
         </div>
         <span class="item-remove">Remove</span>
       </div>
@@ -962,8 +962,8 @@
         <div class="item-name">Eucalyptus Spearmint</div>
         <div class="item-sub">Gentle Foaming Hand Soap · 8.75 fl oz</div>
         <div class="item-actions">
-          <div class="qty-control"><button class="qty-btn">−</button><span class="qty-num">1</span><button class="qty-btn">+</button></div>
-          <span class="item-price">$10.55</span>
+          <div class="qty-control"><button class="qty-btn" onclick="adjustQty('soap',-1)">−</button><span class="qty-num" id="soapQtyNum">1</span><button class="qty-btn" onclick="adjustQty('soap',1)">+</button></div>
+          <span class="item-price" id="soapPrice">$10.55</span>
         </div>
         <span class="item-remove">Remove</span>
       </div>
@@ -1016,8 +1016,8 @@
           <div class="item-name">Japanese Cherry Blossom</div>
           <div class="item-sub">Fine Fragrance Mist · 8 fl oz</div>
           <div class="item-actions">
-            <div class="qty-control"><button class="qty-btn">−</button><span class="qty-num">1</span><button class="qty-btn">+</button></div>
-            <span class="item-price">$17.95</span>
+            <div class="qty-control"><button class="qty-btn" onclick="adjustQty('pickup1',-1)">−</button><span class="qty-num" id="pickup1QtyNum">1</span><button class="qty-btn" onclick="adjustQty('pickup1',1)">+</button></div>
+            <span class="item-price" id="pickup1Price">$17.95</span>
           </div>
           <span class="item-remove">Remove</span>
         </div>
@@ -1036,8 +1036,8 @@
           <div class="item-name">Mahogany Teakwood</div>
           <div class="item-sub">Wallflowers Refill · 2-pack</div>
           <div class="item-actions">
-            <div class="qty-control"><button class="qty-btn">−</button><span class="qty-num">1</span><button class="qty-btn">+</button></div>
-            <span class="item-price">$13.95</span>
+            <div class="qty-control"><button class="qty-btn" onclick="adjustQty('pickup2',-1)">−</button><span class="qty-num" id="pickup2QtyNum">1</span><button class="qty-btn" onclick="adjustQty('pickup2',1)">+</button></div>
+            <span class="item-price" id="pickup2Price">$13.95</span>
           </div>
           <span class="item-remove">Remove</span>
         </div>
@@ -1060,8 +1060,8 @@
           <div class="item-name">Lemon Mint Leaf</div>
           <div class="item-sub">Hand Soap · 8 fl oz</div>
           <div class="item-actions">
-            <div class="qty-control"><button class="qty-btn">−</button><span class="qty-num">2</span><button class="qty-btn">+</button></div>
-            <span class="item-price">$9.95</span>
+            <div class="qty-control"><button class="qty-btn" onclick="adjustQty('pickup3',-1)">−</button><span class="qty-num" id="pickup3QtyNum">2</span><button class="qty-btn" onclick="adjustQty('pickup3',1)">+</button></div>
+            <span class="item-price" id="pickup3Price">$19.90</span>
           </div>
           <span class="item-remove">Remove</span>
         </div>
@@ -1072,9 +1072,21 @@
       </div>
     </div>
 
+    <!-- PICKUP ORDER SUMMARY -->
+    <div class="summary-section" style="margin-top:10px;">
+      <div class="summary-title">Pickup Order · Winter Garden</div>
+      <div class="summary-row"><span class="summary-label" id="pickupSubtotalLabel">Subtotal (3 items)</span><span class="summary-value" id="pickupSubtotal">$51.80</span></div>
+      <div class="summary-row"><span class="summary-label">Pickup fee</span><span class="summary-value" style="color:var(--accent-success);font-weight:700;">Free</span></div>
+      <div class="summary-divider"></div>
+      <div class="summary-total-row">
+        <span class="summary-total-label">Pickup Total</span>
+        <span class="summary-total-value" id="pickupTotal">$51.80</span>
+      </div>
+    </div>
+
     <!-- ORDER SUMMARY -->
     <div class="summary-section">
-      <div class="summary-title">Order Summary</div>
+      <div class="summary-title">Shipping Order Summary</div>
       <div class="summary-row"><span class="summary-label" id="summarySubtotalLabel">Subtotal (3 items)</span><span class="summary-value" id="summarySubtotal">$48.00</span></div>
       <div class="summary-row"><span class="summary-label">Estimated shipping</span><span class="summary-value" id="summaryShipping">$6.95</span></div>
       <div class="summary-row"><span class="summary-label">Estimated tax</span><span class="summary-value">$3.75</span></div>
@@ -1312,8 +1324,18 @@
   let bogoQty = 1;
   let bogoTimer = null;
   let recAdded = false;
-  const BODY_CARE_BASE = 2; // other body care items already in the bag, outside the BOGO stepper
   let freeItemsSelected = 0;
+
+  const unitPrices = { candle: 22.95, soap: 10.55, pickup1: 17.95, pickup2: 13.95, pickup3: 9.95 };
+  const qtys = { candle: 1, soap: 1, pickup1: 1, pickup2: 1, pickup3: 2 };
+
+  function adjustQty(key, delta) {
+    qtys[key] = Math.max(1, qtys[key] + delta);
+    document.getElementById(`${key}QtyNum`).textContent = qtys[key];
+    document.getElementById(`${key}Price`).textContent = `$${(qtys[key] * unitPrices[key]).toFixed(2)}`;
+    updateBodyCareTracker();
+    updateCartTotals();
+  }
 
   function bogoIncrement() {
     bogoQty++;
@@ -1343,14 +1365,20 @@
   }
 
   function updateCartTotals() {
-    const baseFixed = 22.95 + 10.55; // Mahogany Teakwood candle + Eucalyptus Spearmint hand soap
+    const baseFixed = qtys.candle * unitPrices.candle + qtys.soap * unitPrices.soap;
     const recPrice = recAdded ? 7.95 : 0;
     const subtotal = bogoUnitsPaid(bogoQty) + baseFixed + recPrice;
     const freeShipping = subtotal >= 50;
     const shipping = freeShipping ? 0 : 6.95;
     const tax = 3.75;
     const total = subtotal + shipping + tax;
-    const itemCount = 2 + bogoQty + (recAdded ? 1 : 0) + freeItemsSelected;
+    const itemCount = qtys.candle + qtys.soap + bogoQty + (recAdded ? 1 : 0) + freeItemsSelected;
+
+    const pickupSubtotal = qtys.pickup1 * unitPrices.pickup1 + qtys.pickup2 * unitPrices.pickup2 + qtys.pickup3 * unitPrices.pickup3;
+    const pickupItemCount = 3; // 3 distinct pickup products, quantities adjustable independently
+    document.getElementById('pickupSubtotalLabel').textContent = `Subtotal (${pickupItemCount} items)`;
+    document.getElementById('pickupSubtotal').textContent = `$${pickupSubtotal.toFixed(2)}`;
+    document.getElementById('pickupTotal').textContent = `$${pickupSubtotal.toFixed(2)}`;
 
     document.getElementById('checkoutItems').textContent = `${itemCount} item${itemCount === 1 ? '' : 's'}`;
     document.getElementById('checkoutTotal').textContent = `$${total.toFixed(2)}`;
@@ -1385,7 +1413,7 @@
   }
 
   function bodyCareCount() {
-    return BODY_CARE_BASE + bogoQty + (recAdded ? 1 : 0);
+    return qtys.candle + qtys.soap + bogoQty + (recAdded ? 1 : 0);
   }
 
   function updateBodyCareTracker() {

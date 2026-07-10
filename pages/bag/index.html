@@ -694,6 +694,41 @@
     display: flex; align-items: center; justify-content: center;
     font-family: var(--font-family-sans), sans-serif; font-size: 12px; color: var(--color-fg-default);
   }
+  .drawer-fragrance-label {
+    font-family: var(--font-family-sans), sans-serif; font-size: 9px; font-weight: 700;
+    letter-spacing: 0.8px; text-transform: uppercase; color: var(--color-fg-minimal);
+    padding: 10px 14px 5px; border-top: 1px solid var(--color-border-default); margin-top: 2px;
+  }
+  .drawer-fragrance-label:first-child { border-top: none; margin-top: 0; padding-top: 5px; }
+  .drawer-item-match {
+    font-family: var(--font-family-sans), sans-serif; font-size: 9.5px;
+    color: var(--accent-success); font-weight: 600; margin-bottom: 2px;
+  }
+
+  /* ── SOLD-OUT ITEM ── */
+  .badge-error { background: #fce8e8; border-color: #c0392b; color: #c0392b; }
+  .oos-item-row { border-left: 3px solid #c0392b !important; }
+  .oos-strip {
+    background: #fff5f5; border: 1px solid #f0c0c0;
+    margin: 8px 0 0; padding: 8px 10px;
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  }
+  .oos-strip-text { flex: 1; min-width: 120px; }
+  .oos-strip-title {
+    font-family: var(--font-family-sans), sans-serif; font-size: 11px;
+    font-weight: 700; color: #b03030; margin-bottom: 2px;
+  }
+  .oos-strip-sub {
+    font-family: var(--font-family-sans), sans-serif; font-size: 10px;
+    color: var(--color-fg-minimal);
+  }
+  .oos-replace-btn {
+    font-family: var(--font-family-sans), sans-serif; font-size: 11px; font-weight: 700;
+    background: #b03030; color: #fff; border: none; cursor: pointer;
+    padding: 7px 14px; border-radius: var(--radius-none); white-space: nowrap;
+    flex-shrink: 0; letter-spacing: 0.2px;
+  }
+  .oos-replace-btn:active { background: #8c2020; }
 
   /* ── FREE SHIPPING REC CARD ── */
   .rec-card {
@@ -969,6 +1004,34 @@
       </div>
     </div>
 
+    <!-- ITEM 4 — SOLD OUT -->
+    <div class="item-row oos-item-row" id="oosItem">
+      <div class="item-img" style="opacity:0.4;font-size:28px;">🍬</div>
+      <div class="item-details">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;flex-wrap:wrap;">
+          <div class="item-name" style="margin-bottom:0;opacity:0.5;">Warm Vanilla Sugar</div>
+          <span class="badge badge-error">Sold Out</span>
+        </div>
+        <div class="item-sub" style="opacity:0.5;">Body Lotion · 8 fl oz</div>
+        <div class="item-actions" style="opacity:0.4;pointer-events:none;">
+          <div class="qty-control">
+            <button class="qty-btn">−</button>
+            <span class="qty-num">1</span>
+            <button class="qty-btn">+</button>
+          </div>
+          <span class="item-price" style="text-decoration:line-through;color:var(--color-fg-minimal);">$14.95</span>
+        </div>
+        <div class="oos-strip">
+          <div class="oos-strip-text">
+            <div class="oos-strip-title">This item is sold out</div>
+            <div class="oos-strip-sub">Choose a similar scent to keep your order moving</div>
+          </div>
+          <button class="oos-replace-btn" onclick="openDrawer()">Find Replacement</button>
+        </div>
+        <span class="item-remove">Remove</span>
+      </div>
+    </div>
+
     <!-- FREE SHIPPING RECOMMENDATION CARD -->
     <div class="rec-card" id="recCard">
       <div class="rec-card-header">
@@ -1188,55 +1251,74 @@
   <div class="drawer" id="similarDrawer">
     <div class="drawer-handle-row"><div class="drawer-handle"></div></div>
     <div class="drawer-header">
-      <div class="drawer-title">Similar Items</div>
-      <div class="drawer-sub">Replacing <strong>Eucalyptus Spearmint Body Lotion</strong></div>
+      <div>
+        <div class="drawer-title">Find a Replacement</div>
+        <div class="drawer-sub">Replacing <strong>Warm Vanilla Sugar Body Lotion</strong></div>
+      </div>
       <button class="drawer-close-btn" onclick="closeDrawer()">✕</button>
     </div>
     <div class="drawer-items">
-      <div class="drawer-item">
-        <div class="drawer-item-img">🌿</div>
+      <div class="drawer-fragrance-label">Warm &amp; Sweet · Closest Match</div>
+      <div class="drawer-item" data-price="14.95">
+        <div class="drawer-item-img">✨</div>
         <div class="drawer-item-info">
-          <div class="drawer-item-name">Stress Relief Eucalyptus</div>
+          <div class="drawer-item-name">A Thousand Wishes</div>
           <div class="drawer-item-sub">Body Lotion · 8 fl oz</div>
+          <div class="drawer-item-match">Warm Sweet Almond · same fragrance family</div>
           <div class="drawer-item-price">$14.95</div>
         </div>
-        <button class="drawer-add-btn" onclick="addToCart(this)">Add</button>
+        <button class="drawer-add-btn" onclick="addToCart(this)">Swap</button>
       </div>
-      <div class="drawer-item">
-        <div class="drawer-item-img">🍃</div>
+      <div class="drawer-item" data-price="9.95">
+        <div class="drawer-item-img">🍬</div>
         <div class="drawer-item-info">
-          <div class="drawer-item-name">Aromatherapy Lavender</div>
+          <div class="drawer-item-name">Velvet Sugar</div>
           <div class="drawer-item-sub">Body Lotion · 8 fl oz</div>
+          <div class="drawer-item-match">Warm Vanilla &amp; Soft Musk · top match</div>
           <div class="drawer-item-price"><span class="drawer-item-price-orig">$14.95</span><span class="drawer-item-sale">$9.95</span></div>
         </div>
-        <button class="drawer-add-btn" onclick="addToCart(this)">Add</button>
+        <button class="drawer-add-btn" onclick="addToCart(this)">Swap</button>
       </div>
-      <div class="drawer-item">
-        <div class="drawer-item-img">🌸</div>
+      <div class="drawer-item" data-price="14.95">
+        <div class="drawer-item-img">🌹</div>
         <div class="drawer-item-info">
-          <div class="drawer-item-name">Japanese Cherry Blossom</div>
+          <div class="drawer-item-name">Sweet Pea</div>
           <div class="drawer-item-sub">Body Lotion · 8 fl oz</div>
+          <div class="drawer-item-match">Sweet Floral · warm base notes</div>
           <div class="drawer-item-price">$14.95</div>
         </div>
-        <button class="drawer-add-btn" onclick="addToCart(this)">Add</button>
+        <button class="drawer-add-btn" onclick="addToCart(this)">Swap</button>
       </div>
-      <div class="drawer-item">
-        <div class="drawer-item-img">🧴</div>
+      <div class="drawer-fragrance-label">Cozy &amp; Warm · You Might Also Like</div>
+      <div class="drawer-item" data-price="14.95">
+        <div class="drawer-item-img">🕯️</div>
+        <div class="drawer-item-info">
+          <div class="drawer-item-name">Cashmere Glow</div>
+          <div class="drawer-item-sub">Body Lotion · 8 fl oz</div>
+          <div class="drawer-item-match">Warm Cashmere &amp; Sandalwood</div>
+          <div class="drawer-item-price">$14.95</div>
+        </div>
+        <button class="drawer-add-btn" onclick="addToCart(this)">Swap</button>
+      </div>
+      <div class="drawer-item" data-price="14.95">
+        <div class="drawer-item-img">🌙</div>
         <div class="drawer-item-info">
           <div class="drawer-item-name">Into The Night</div>
           <div class="drawer-item-sub">Body Lotion · 8 fl oz</div>
+          <div class="drawer-item-match">Midnight Jasmine &amp; Warm Amber</div>
           <div class="drawer-item-price">$14.95</div>
         </div>
-        <button class="drawer-add-btn" onclick="addToCart(this)">Add</button>
+        <button class="drawer-add-btn" onclick="addToCart(this)">Swap</button>
       </div>
-      <div class="drawer-item">
-        <div class="drawer-item-img">🌻</div>
+      <div class="drawer-item" data-price="9.95">
+        <div class="drawer-item-img">🍂</div>
         <div class="drawer-item-info">
-          <div class="drawer-item-name">Sunshine & Sunflowers</div>
+          <div class="drawer-item-name">Autumn</div>
           <div class="drawer-item-sub">Body Lotion · 8 fl oz</div>
+          <div class="drawer-item-match">Apple, Cinnamon &amp; Warm Spice</div>
           <div class="drawer-item-price"><span class="drawer-item-price-orig">$14.95</span><span class="drawer-item-sale">$9.95</span></div>
         </div>
-        <button class="drawer-add-btn" onclick="addToCart(this)">Add</button>
+        <button class="drawer-add-btn" onclick="addToCart(this)">Swap</button>
       </div>
     </div>
   </div>
@@ -1329,6 +1411,16 @@
   const unitPrices = { candle: 22.95, soap: 10.55, pickup1: 17.95, pickup2: 13.95, pickup3: 9.95 };
   const qtys = { candle: 1, soap: 1, pickup1: 1, pickup2: 1, pickup3: 2 };
 
+  let oosItemUnitPrice = 0;
+  let oosItemQty = 1;
+  function adjustOosQty(delta) {
+    oosItemQty = Math.max(1, oosItemQty + delta);
+    document.getElementById('oosReplQtyNum').textContent = oosItemQty;
+    const lineTotal = (oosItemQty * oosItemUnitPrice).toFixed(2);
+    document.getElementById('oosReplPrice').textContent = `$${lineTotal}`;
+    updateCartTotals();
+  }
+
   function adjustQty(key, delta) {
     qtys[key] = Math.max(1, qtys[key] + delta);
     document.getElementById(`${key}QtyNum`).textContent = qtys[key];
@@ -1367,12 +1459,14 @@
   function updateCartTotals() {
     const baseFixed = qtys.candle * unitPrices.candle + qtys.soap * unitPrices.soap;
     const recPrice = recAdded ? 7.95 : 0;
-    const subtotal = bogoUnitsPaid(bogoQty) + baseFixed + recPrice;
+    const oosPrice = oosItemUnitPrice > 0 ? oosItemQty * oosItemUnitPrice : 0;
+    const subtotal = bogoUnitsPaid(bogoQty) + baseFixed + recPrice + oosPrice;
     const freeShipping = subtotal >= 50;
     const shipping = freeShipping ? 0 : 6.95;
     const tax = 3.75;
     const total = subtotal + shipping + tax;
-    const itemCount = qtys.candle + qtys.soap + bogoQty + (recAdded ? 1 : 0) + freeItemsSelected;
+    const oosCount = oosItemUnitPrice > 0 ? oosItemQty : 0;
+    const itemCount = qtys.candle + qtys.soap + bogoQty + (recAdded ? 1 : 0) + freeItemsSelected + oosCount;
 
     const pickupSubtotal = qtys.pickup1 * unitPrices.pickup1 + qtys.pickup2 * unitPrices.pickup2 + qtys.pickup3 * unitPrices.pickup3;
     const pickupItemCount = 3; // 3 distinct pickup products, quantities adjustable independently
@@ -1543,29 +1637,32 @@
       closeDrawer();
       const oosEl = document.getElementById('oosItem');
       if (oosEl) {
-        const name  = btn.closest('.drawer-item').querySelector('.drawer-item-name').textContent;
-        const sub   = btn.closest('.drawer-item').querySelector('.drawer-item-sub').textContent;
-        const emoji = btn.closest('.drawer-item').querySelector('.drawer-item-img').textContent;
-        const priceEl = btn.closest('.drawer-item').querySelector('.drawer-item-price');
-        const sale  = priceEl.querySelector('.drawer-item-sale');
-        const orig  = priceEl.querySelector('.drawer-item-price-orig');
-        const priceHTML = sale
-          ? `<span class="item-price-orig">${orig.textContent}</span><span class="item-price item-price-sale">${sale.textContent}</span>`
-          : `<span class="item-price">${priceEl.textContent}</span>`;
+        const drawerItem = btn.closest('.drawer-item');
+        const name  = drawerItem.querySelector('.drawer-item-name').textContent;
+        const sub   = drawerItem.querySelector('.drawer-item-sub').textContent;
+        const emoji = drawerItem.querySelector('.drawer-item-img').textContent;
+        oosItemUnitPrice = parseFloat(drawerItem.dataset.price) || 14.95;
+        oosItemQty = 1;
         oosEl.outerHTML = `
           <div class="item-row" style="border-left:3px solid var(--accent-success);">
             <div class="item-img">${emoji}</div>
             <div class="item-details">
-              <div style="font-family:var(--font-family-sans), sans-serif;font-size:9px;font-weight:700;letter-spacing:0.8px;color:var(--accent-success);text-transform:uppercase;margin-bottom:3px;">✓ Replaced</div>
+              <div style="font-family:var(--font-family-sans),sans-serif;font-size:9px;font-weight:700;letter-spacing:0.8px;color:var(--accent-success);text-transform:uppercase;margin-bottom:3px;">✓ Replaced</div>
               <div class="item-name">${name}</div>
               <div class="item-sub">${sub}</div>
               <div class="item-actions">
-                <div class="qty-control"><button class="qty-btn">−</button><span class="qty-num">1</span><button class="qty-btn">+</button></div>
-                <div>${priceHTML}</div>
+                <div class="qty-control">
+                  <button class="qty-btn" onclick="adjustOosQty(-1)">−</button>
+                  <span class="qty-num" id="oosReplQtyNum">1</span>
+                  <button class="qty-btn" onclick="adjustOosQty(1)">+</button>
+                </div>
+                <span class="item-price" id="oosReplPrice">$${oosItemUnitPrice.toFixed(2)}</span>
               </div>
               <span class="item-remove">Remove</span>
             </div>
           </div>`;
+        updateBodyCareTracker();
+        updateCartTotals();
       }
     }, 700);
   }
